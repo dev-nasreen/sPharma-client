@@ -5,3 +5,11 @@
     font-size: 40px;
     color:#198754;
 }
+.s-spinner{
+    margin: 200px auto;
+}
+.pd-info a{
+    display: inline-block;
+    margin-left: 60px;
+    margin-top: 10px;
+}

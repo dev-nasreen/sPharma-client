@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import './Home.css'
 
 
 const SingleProduct = ({pd}) => {
@@ -12,7 +13,7 @@ const SingleProduct = ({pd}) => {
                 <h3 className="card-text">{name}</h3>
                 <div className="d-flex mt-4 pd-info">
                     <h5>$ {price}</h5>
-                   <Link to={"/checkOut/"+ _id}><button className="btn btn-success ms-auto">Buy Now</button></Link> 
+                   <Link to={"/checkOut/"+ _id}><button className="btn btn-success buy-btn">Buy Now</button></Link> 
                 </div>
             </div>
              </div>

@@ -6,7 +6,7 @@ const Home = () => {
     const [products, setProducts] = useState([]);
 
     useEffect(() =>{
-        fetch('http://localhost:5050/products')
+        fetch('http://localhost:5000/products')
         .then(res => res.json())
         .then(data => setProducts(data))
     },[])
@@ -16,6 +16,9 @@ const Home = () => {
        <>
         <div className="container-fluid">
             <div className="row">
+                {products.length === 0 && <div class="spinner-border text-success s-spinner" role="status">
+  <span class="visually-hidden">Loading...</span>
+</div> }
                 {
                     products.map(pd => <SingleProduct pd={pd} key={pd._id}></SingleProduct>)
                 }

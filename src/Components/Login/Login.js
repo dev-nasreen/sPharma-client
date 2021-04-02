@@ -5,7 +5,8 @@ import "firebase/auth";
 import firebaseConfig from './firebase.config';
 import { userContext } from '../../App';
 import { useHistory, useLocation } from 'react-router';
-//import { FcGoogle } from 'react-icons/fc';
+import './Login.css'
+import { FcGoogle } from 'react-icons/fc';
 
 
 
@@ -17,73 +18,93 @@ const Login = () => {
     const [newUser, setNewUser] = useState(true);
     const [user, setUser] = useState({
         isSignedIn: false
-      })
+    })
     const history = useHistory();
     const location = useLocation();
     const { from } = location.state || { from: { pathname: "/" } };
     const { register, handleSubmit, watch, errors } = useForm();
     const onSubmit = data => {
         firebase.auth().createUserWithEmailAndPassword(data.email, data.password)
-            .then((userCredential) => {
-                var user = userCredential.user;
-                console.log(user);
-                history.replace(from);
+            .then((res) => {
+                const newUserInfo = { ...user };
+                newUserInfo.success = true;
+                newUserInfo.error = '';
+                setUser(newUserInfo);
+                setLoggedInUser(newUserInfo);
+                history.push('/')
             })
             .catch((error) => {
-                var errorMessage = error.message;
-                console.log(errorMessage);
-                // ..
+                const newUserInfo = { ...user };
+                newUserInfo.error = error.message;
+                newUserInfo.success = false;
+                setUser(newUserInfo);
+                setLoggedInUser(newUserInfo);
             });
-            console.log(data.email, data.name);
-        
     }
 
-    console.log("watching..", watch().password, watch().rePassword );
-    
-    const handleGoogleSignIn = () =>{
+
+    const handleGoogleSignIn = () => {
         var provider = new firebase.auth.GoogleAuthProvider();
         firebase.auth()
-      .signInWithPopup(provider)
-      .then((result) => {
-        const {displayName, email} = result.user;
-        const signedInUser = {name: displayName, email, isSignedIn: true,}
-        setLoggedInUser(signedInUser);
-        history.replace(from);
-      }).catch((error) => {
-        var errorMessage = error.message;
-        var email = error.email;
-        console.log(errorMessage, email)
-      });
-      }
+            .signInWithPopup(provider)
+            .then((result) => {
+                const { displayName, email } = result.user;
+                const signedInUser = { name: displayName, email, isSignedIn: true, }
+                setLoggedInUser(signedInUser);
+                history.replace(from);
+            }).catch((error) => {
+                var email = error.email;
+                console.log(email)
+            });
+    }
     return (
-        <div>
-            {    user.isSignedIn ||
-            <form onSubmit={handleSubmit(onSubmit)}>
-                {
-                    newUser &&  <input name="name" ref={register({ required: true })} type="text" placeholder="your name" />
-                }
-                {errors.name && <span>This field is required</span>}
-                <br />
-                <input name="email" ref={register({ required: true })} type="email" placeholder="Email" />
-                {errors.email && <span>This field is required</span>}
-                <br />
-                <input name="password" ref={register({ required: true })} type="password" placeholder="Password" />
-                {errors.password && <span>This field is required</span>}
-                <br />
-                {
-                    newUser && <input name="rePassword" ref={register({ required: true })} type="password" placeholder="Password" />
-                }
-                
-                { watch().password === watch().rePassword || <span>Password not matched.</span>}
-                <br />
-                <input type="submit" value={newUser ? 'Sign Up' : 'Sign In'}/>
+        <div className="container">
+            <div className="row">
+                <div className="col-md-6 mx-auto">
+                    <div className="login-form">
+                        {user.isSignedIn ||
+                            <form onSubmit={handleSubmit(onSubmit)}>
+                                {newUser &&
+                                    <div className="mb-3">
+                                        <input type="text" name="name" class="form-control form-field" ref={register({ required: true })} placeholder=" Name" />
+                                        {errors.name && <span>This field is required</span>}
+                                    </div>
+                                }
+                                <div className="mb-3">
+                                    <input name="email" class="form-control form-field" ref={register({ required: true })} type="email" placeholder="Username or Email" />
+                                    {errors.email && <span style={{ color: 'red' }}>This field is required</span>}
+                                </div>
+                                <div className="mb-3">
+                                    <input name="password" class="form-control form-field" ref={register({ required: true })} type="password" placeholder="Password" />
+                                    {errors.password && <span style={{ color: 'red' }}>This field is required</span>}
+                                </div>
+                                <div className="mb-3">
+                                    {
+                                        newUser &&
+                                        <input name="rePassword" class="form-control form-field" ref={register({ required: true })} type="password" placeholder="Confirm Password" />
+                                    }
+                                </div>
 
-                <p>Or <span onClick={() => setNewUser(!newUser) }>Log In</span> </p>
-            </form>
-            }
-            {/* <span onClick={handleGoogleSignIn}><FcGoogle/> </span> */}
-            <span onClick={handleGoogleSignIn}>Sign in with google. </span>
+                                {/* {(newUser && watch().password === watch().rePassword) || <span style={{color:'red'}}>Password not matched.</span> } */}
+
+
+                                <div className="mb-3">
+                                    <input type="submit" className="btn btn-success form-control" value={newUser ? 'Create an account' : 'Sign In'} style={{ fontSize: '22px' }} />
+                                </div>
+                                {newUser ?
+                                    <p style={{ fontSize: '18px' }}>Already have an account? <span onClick={() => setNewUser(!newUser)} style={{ color: '#198754', borderBottom: '1px solid #198754', cursor: 'pointer' }}>Log In</span> </p>
+                                    :
+                                    <p style={{ fontSize: '18px' }}>Don't have an account? <span onClick={() => setNewUser(!newUser)} style={{ color: '#198754', borderBottom: '1px solid #198754', cursor: 'pointer' }}>Create An Account</span> </p>
+                                }
+                            </form>
+                        }
+                        {/* <span onClick={handleGoogleSignIn}><FcGoogle/> </span> */}
+                        <div className=" form-control google" onClick={handleGoogleSignIn}><FcGoogle /> <span className="g-text">Continue with google.</span> </div>
+                    </div>
+                </div>
+            </div>
         </div>
+
     );
 };
 

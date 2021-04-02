@@ -1,7 +1,7 @@
 import React from 'react';
 
-const SingleOrder = ({order}) => {
-    const {product} = order;
+const SingleOrder = ({ order }) => {
+    const { product } = order;
     return (
         <tr>
             <th>{product.name}</th>

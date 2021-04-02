@@ -17,6 +17,7 @@ import PrivateRoute from "./Components/PrivateRoute/PrivateRoute";
 import AddProduct from "./Components/Admin/AddProduct";
 import AdminNav from "./Components/AdminNav/AdminNav";
 import ManageProduct from "./Components/Admin/ManageProduct";
+import Deals from "./Components/Deals/Deals";
 
 
 export const userContext = createContext();
@@ -40,7 +41,7 @@ function App() {
             <ManageProduct />
           </PrivateRoute>
           <PrivateRoute path="/addProduct">
-            <AdminNav></AdminNav>
+          <AdminNav></AdminNav>
             <AddProduct />
           </PrivateRoute>
           <PrivateRoute path="/order">
@@ -52,7 +53,12 @@ function App() {
             <CheckOut />
           </PrivateRoute>
           <Route path="/login">
+          <Header></Header>
             <Login />
+          </Route>
+          <Route path="/deals">
+          <Header></Header>
+            <Deals />
           </Route>
         </Switch>
       

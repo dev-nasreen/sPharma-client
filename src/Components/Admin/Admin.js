@@ -5,9 +5,9 @@ import './Admin.css'
 
 const Admin = () => {
     return (
-       <>
-           <AddProduct></AddProduct>
-       </>
+        <>
+            <AddProduct></AddProduct>
+        </>
     );
 };
 
