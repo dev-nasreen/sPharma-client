@@ -16,7 +16,7 @@ const AddProduct = () => {
             imgUrl: imgUrl
         };
         console.log(productData);
-        fetch('http://localhost:5000/addProduct', {
+        fetch('https://shrouded-eyrie-05042.herokuapp.com/addProduct', {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(productData)

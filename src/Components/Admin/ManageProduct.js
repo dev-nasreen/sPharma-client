@@ -6,7 +6,7 @@ const ManageProduct = () => {
     const [loggedInUser, setLoggedInUser] = useContext(userContext)
     const [products, setProducts] = useState([]);
     useEffect(() => {
-        fetch(`http://localhost:5000/products`)
+        fetch(`https://shrouded-eyrie-05042.herokuapp.com/products`)
             .then(res => res.json())
             .then(data => setProducts(data))
     }, [])
