@@ -1,0 +1,10 @@
+.my-menu ul li a, .my-menu a, .my-menu ul li span{
+    color:#fff;
+   
+}
+.my-menu ul li a, .my-menu ul li span{
+    font-size: 18px;
+}
+.my-menu a{
+    font-size: 30px;
+}

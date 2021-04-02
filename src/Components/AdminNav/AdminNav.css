@@ -1,0 +1,10 @@
+.admin-nav{
+    width: 250px;
+    height: 750px;
+    background: darkslategray;
+    font-size: 25px;
+}
+.admin-nav ul li a{
+
+    color:#fff;
+}
