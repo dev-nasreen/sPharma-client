@@ -10,3 +10,7 @@ Also authentication system is also used.
 
 
 # full-stack-client-dev-nasreen
+
+❖	It is a medicine shop website. A user need to login before placing order. There are three ways a user can login in this site. After placing order he can see how many products he ordered.
+
+❖	Technology used:  React.js, Bootstrap, React Icon, API, Firebase Authentication, React Route, Private Route.
