@@ -16,8 +16,8 @@ const Order = () => {
         <div className="container">
             <div className="row mt-5">
                 <div className="col-md-10 col-10 mt-5 mx-auto">
-                    {/* <h3 className="mb-5">Dear {orders[0].name}! Here is the list of your product orders:</h3> */}
-                    <table class="table">
+                   <h3 className="mb-5">Dear {loggedInUser.email}! Here is the list of your product orders:</h3> 
+                    <table className="table">
                         <thead>
                             <tr style={{ fontSize: '30px', color: '#198754' }}>
                                 <th scope="col">Product Name</th>

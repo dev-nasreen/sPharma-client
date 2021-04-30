@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import firebase from "firebase/app";
 import "firebase/auth";
@@ -17,21 +17,28 @@ const Login = () => {
     const [loggedInUser, setLoggedInUser] = useContext(userContext);
     const [newUser, setNewUser] = useState(true);
     const [user, setUser] = useState({
-        isSignedIn: false
+        isSignedIn: false,
+        name: '',
+        email: '',
+        password: ''
     })
     const history = useHistory();
     const location = useLocation();
     const { from } = location.state || { from: { pathname: "/" } };
     const { register, handleSubmit, watch, errors } = useForm();
+    const password = useRef({});
+    password.current = watch("password", "");
     const onSubmit = data => {
-        firebase.auth().createUserWithEmailAndPassword(data.email, data.password)
+        if (newUser && data.email && data.password){
+            firebase.auth().createUserWithEmailAndPassword(data.email, data.password)
             .then((res) => {
                 const newUserInfo = { ...user };
                 newUserInfo.success = true;
                 newUserInfo.error = '';
                 setUser(newUserInfo);
                 setLoggedInUser(newUserInfo);
-                history.push('/')
+                console.log(newUserInfo);
+                history.replace(from);
             })
             .catch((error) => {
                 const newUserInfo = { ...user };
@@ -40,6 +47,33 @@ const Login = () => {
                 setUser(newUserInfo);
                 setLoggedInUser(newUserInfo);
             });
+        }
+
+        if (!newUser && data.email && data.password) {
+            firebase.auth().signInWithEmailAndPassword(data.email, data.password)
+              .then((res) => {
+                const newUserInfo = { ...user };
+                newUserInfo.success = true;
+                newUserInfo.error = '';
+                setUser(newUserInfo);
+                const { displayName, email } = res.user;
+                const signedInUser = { name: displayName, email, isSignedIn: true, }
+                setLoggedInUser(signedInUser);
+                console.log(newUserInfo);
+                console.log(res.user);
+                history.replace(from);
+                
+              })
+              .catch((error) => {
+                const newUserInfo = { ...user };
+                newUserInfo.error = error.message;
+                newUserInfo.success = false;
+                console.log(error);
+                setUser(newUserInfo);
+              });
+          }
+       
+
     }
 
 
@@ -66,30 +100,40 @@ const Login = () => {
                             <form onSubmit={handleSubmit(onSubmit)}>
                                 {newUser &&
                                     <div className="mb-3">
-                                        <input type="text" name="name" class="form-control form-field" ref={register({ required: true })} placeholder=" Name" />
+                                        <input type="text" name="name" className="form-control form-field" ref={register({ required: true })} placeholder=" Name" />
                                         {errors.name && <span>This field is required</span>}
                                     </div>
                                 }
                                 <div className="mb-3">
-                                    <input name="email" class="form-control form-field" ref={register({ required: true })} type="email" placeholder="Username or Email" />
+                                    <input name="email" className="form-control form-field" ref={register({ required: true })} type="email" placeholder="Username or Email" />
                                     {errors.email && <span style={{ color: 'red' }}>This field is required</span>}
                                 </div>
                                 <div className="mb-3">
-                                    <input name="password" class="form-control form-field" ref={register({ required: true })} type="password" placeholder="Password" />
-                                    {errors.password && <span style={{ color: 'red' }}>This field is required</span>}
+                                    <input name="password" type="password" className="form-control form-field" ref={register({
+                                        required: "You must specify a password",
+                                        minLength: {
+                                        value: /^(?=.*\d)(?=.*[a-zA-Z])[a-zA-Z0-9]{6,}$/i,
+                                        message: "Password must have at least 6 characters"
+                                        }
+                                    })}  placeholder="password" />
+                                   {errors.password && <p>{errors.password.message}</p>}
                                 </div>
                                 <div className="mb-3">
                                     {
                                         newUser &&
-                                        <input name="rePassword" class="form-control form-field" ref={register({ required: true })} type="password" placeholder="Confirm Password" />
+                                        <input name="rePassword"  type="password" className="form-control form-field" 
+                                        ref={register({
+                                            validate: value =>
+                                              value === password.current || "The passwords do not match"
+                                          })} placeholder="Confirm Password" />
+                                         
                                     }
+                                     {errors.rePassword && <p>{errors.rePassword.message}</p>}
                                 </div>
-
-                                {/* {(newUser && watch().password === watch().rePassword) || <span style={{color:'red'}}>Password not matched.</span> } */}
-
+                                
 
                                 <div className="mb-3">
-                                    <input type="submit" className="btn btn-success form-control" value={newUser ? 'Create an account' : 'Sign In'} style={{ fontSize: '22px' }} />
+                                    <input type="submit" className="btn btn-success form-control" value={newUser ? 'Create an account' : 'Log In'} style={{ fontSize: '22px' }} />
                                 </div>
                                 {newUser ?
                                     <p style={{ fontSize: '18px' }}>Already have an account? <span onClick={() => setNewUser(!newUser)} style={{ color: '#198754', borderBottom: '1px solid #198754', cursor: 'pointer' }}>Log In</span> </p>

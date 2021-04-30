@@ -8,7 +8,7 @@ const SingleProduct = ({pd}) => {
     return (
         <div className="col-md-3 mt-5">
             <div className="card pd" style={{width:"18rem"}}>
-            <img src={imgUrl} class="card-img-top" alt="Medicine" />
+            <img src={imgUrl} className="card-img-top" alt="Medicine" />
             <div className="card-body">
                 <h3 className="card-text">{name}</h3>
                 <div className="d-flex mt-4 pd-info">

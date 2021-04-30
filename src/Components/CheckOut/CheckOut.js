@@ -32,10 +32,10 @@ const CheckOut = () => {
         <div className="container">
             <div className="row">
                 <div className="col-md-10 mx-auto mt-5">
-                    <h3>Hello {loggedInUser.name}! Lets place order for the {product.name}</h3>
+                    <h3>Hello {loggedInUser.email}! Lets place order for the {product.name}</h3>
                     <div className="mb-3">
                     <label htmFor="date" className="form-label">Date of Placing order</label>
-                    <input type="date" class="form-control" name="date" placeholder="Date of place Order" onChange={handleDateChange} />
+                    <input type="date" className="form-control" name="date" placeholder="Date of place Order" onChange={handleDateChange} />
                     </div>
                     <table className="table mt-5">
                         <thead>

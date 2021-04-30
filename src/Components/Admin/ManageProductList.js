@@ -14,16 +14,14 @@ const ManageProductList = ({ pd }) => {
                 setDeleteSuccess(result)
             
             })
-       
-
     }
     return (
         <>
-            <tr className={deleteSuccess?'d-none':'d-block'}>
+            <tr className={deleteSuccess?'d-none':'d-table-row'}>
                 <th>{name}</th>
                 <th>{quantity}</th>
                 <th>{price}</th>
-                <th><span style={{ cursor: 'pointer' }} onClick={() => handleDeleteProduct(_id)}><RiDeleteBin6Fill /></span> <span><FaUserEdit /></span> </th>
+                <th><span style={{ cursor: 'pointer', color:'red', marginRight:'5px' }} onClick={() => handleDeleteProduct(_id)}><RiDeleteBin6Fill /></span> <span style={{ cursor: 'pointer', color:'#198754', marginLeft:'5px' }}><FaUserEdit /></span> </th>
             </tr>
         </>
     );

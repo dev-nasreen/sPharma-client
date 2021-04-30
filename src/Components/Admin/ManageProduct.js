@@ -21,6 +21,7 @@ const ManageProduct = () => {
                                 <th scope="col">Product Name</th>
                                 <th scope="col">Quantity</th>
                                 <th scope="col">Price</th>
+                                <th scope="col">Delete/Edit</th>
                             </tr>
                         </thead>
                         <tbody>

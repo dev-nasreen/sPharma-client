@@ -30,8 +30,11 @@ const Header = () => {
                                 </li>
                                 <li className="nav-item">
                                 {/* <Link className="nav-link" to="/login">Login</Link> */}
-                                {loggedInUser.email ? <span className="nav-link">{loggedInUser.name}</span> : <Link className="nav-link" to="/login">Login</Link>}
+                                {loggedInUser.email ? <span className="nav-link">{loggedInUser.name || loggedInUser.email }</span> : <Link className="nav-link" to="/login">Login</Link>}
                                   
+                                </li>
+                                <li className="nav-item">
+                                  {loggedInUser.email && <span className="nav-link" style={{cursor:'pointer'}} onClick={() => SetLoggedInUser({})}> LogOut</span>}
                                 </li>
                             </ul>
                         </div>
