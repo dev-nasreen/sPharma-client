@@ -1,4 +1,4 @@
-# Getting Started with Nasreen Akter's New Project.
+# Getting Started with Nasreen Akter's Medicine shop website.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
