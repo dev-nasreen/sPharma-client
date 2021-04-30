@@ -9,7 +9,7 @@ This project is hosted with firebase and Heroku.
 Also authentication system is also used.
 
 
-# full-stack-client-dev-nasreen
+# The website details:
 
 ❖	It is a medicine shop website. A user need to login before placing order. There are three ways a user can login in this site. After placing order he can see how many products he ordered.
 
